@@ -17,6 +17,7 @@ import CommunityWritePage from './pages/CommunityWritePage';
 import ReviewFormPage from './pages/ReviewFormPage';
 import ConsultationChatPage from './pages/ConsultationChatPage';
 import { BookingProvider } from './context/BookingContext';
+import PolicyInfoPage from './pages/PolicyInfoPage';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/community/write" element={<CommunityWritePage />} />
           <Route path="/service/:id/review" element={<ReviewFormPage />} />
           <Route path="/consultation/:id" element={<ConsultationChatPage />} />
+          <Route path="/policy-info" element={<PolicyInfoPage />} />
         </Route>
       </Routes>
     </Router>

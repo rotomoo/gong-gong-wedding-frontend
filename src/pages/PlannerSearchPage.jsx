@@ -16,7 +16,7 @@ function PlannerSearchPage() {
     type: [],
     venueStyle: [],
   });
-  const [sortBy, setSortBy] = useState('rating');
+  const [sortBy, setSortBy] = useState('review_desc');
   const [likedServiceIds, setLikedServiceIds] = useState({});
 
   useEffect(() => {
@@ -46,7 +46,7 @@ function PlannerSearchPage() {
   const resetFilters = () => {
     setFilters({ serviceType: [], location: [], type: [], venueStyle: [] });
     setSearchTerm('');
-    setSortBy('rating');
+    setSortBy('review_desc');
   };
 
   const filteredAndSortedHalls = useMemo(() => {
@@ -58,6 +58,7 @@ function PlannerSearchPage() {
       .filter(hall => filters.venueStyle.length === 0 || (hall.serviceType === '웨딩 베뉴' && filters.venueStyle.includes(hall.venueStyle)));
       
     result.sort((a, b) => {
+      if (sortBy === 'review_desc') return b.reviewCount - a.reviewCount;
       if (sortBy === 'rating') return b.averageRating - a.averageRating;
       if (sortBy === 'price_asc') return a.price - b.price;
       if (sortBy === 'price_desc') return b.price - a.price;
@@ -146,6 +147,7 @@ function PlannerSearchPage() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
           <input type="text" placeholder="업체명으로 검색..." className="input input-ghost w-full sm:max-w-xs border-b-2 border-gray-300 focus:outline-none focus:border-primary transition-all duration-200 pb-2" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="select select-ghost select-sm sm:w-auto border-b-2 border-gray-300 focus:outline-none focus:border-primary transition-all duration-200">
+            <option value="review_desc">리뷰많은순</option>
             <option value="rating">평점순</option>
             <option value="price_desc">가격 높은 순</option>
             <option value="price_asc">가격 낮은 순</option>
@@ -157,7 +159,15 @@ function PlannerSearchPage() {
           {filteredAndSortedHalls.map(hall => (
             <Link to={`/service/${hall.id}`} key={hall.id} className="card bg-white group border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <figure className="relative h-40 w-full">
-                <img src={hall.image} alt={hall.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" />
+                <img 
+                  src={hall.image} 
+                  alt={hall.name} 
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" 
+                  onError={(e) => {
+                    e.currentTarget.src = `https://placehold.co/300x200/EFEFEF/AAAAAA?text=${encodeURIComponent(hall.name)}`;
+                    e.currentTarget.onerror = null;
+                  }}
+                />
                 <button 
                   className="absolute top-2 right-2 btn btn-circle btn-xs bg-white/80 backdrop-blur-sm border-none text-gray-700 hover:text-red-500"
                   onClick={(e) => handleLikeToggle(e, hall.id)}

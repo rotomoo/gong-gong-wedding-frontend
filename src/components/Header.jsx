@@ -33,8 +33,9 @@ function Header() {
               </li>
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-2xl font-bold text-gray-800">
-            👰‍♀️ 공공 웨딩 플래너
+          <Link to="/" className="btn btn-ghost text-2xl font-bold text-gray-800 flex items-center">
+            <img src="/img/free-icon-couple-721853.png" alt="공공 웨딩 플래너 로고" className="h-8 w-8 mr-2" />
+            <span>공공 웨딩 플래너</span>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -42,6 +43,7 @@ function Header() {
             <li><Link to="/search" className="font-semibold">서비스 둘러보기</Link></li>
             <li><Link to="/requests" className="font-semibold">견적 요청</Link></li>
             <li><Link to="/community" className="font-semibold">커뮤니티</Link></li>
+            <li><Link to="/policy-info" className="font-semibold">정책 정보</Link></li>
           </ul>
         </div>
         <div className="navbar-end">

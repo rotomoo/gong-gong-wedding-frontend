@@ -28,7 +28,7 @@ function MyPage() {
   const bookingHistoryCount = bookings.length;
 
   const mainActions = [
-    { title: '내 상담 내역', description: '예약된 상담 및 서비스 내역을 확인합니다.', count: bookingHistoryCount, icon: CalendarDaysIcon, newCount: 0 },
+    { title: '내 상담 내역', description: '예약된 상담 및 서비스 내역을 확인합니다.', count: bookingHistoryCount, icon: CalendarDaysIcon, link: '/bookings', newCount: 0 },
     { title: '내 견적 요청 내역', description: '내가 요청한 견적들을 확인하고 관리합니다.', count: myRequestsCount, icon: DocumentTextIcon, link: '/request-history', newCount: unreadProposalsCount },
     { title: '찜한 서비스', description: '마음에 드는 업체를 모아보세요.', count: likedServicesCount, icon: HeartIcon, link: '/liked-services', newCount: 0 },
   ];

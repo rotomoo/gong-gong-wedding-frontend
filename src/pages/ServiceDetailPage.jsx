@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import ChatRoom from '../components/ChatRoom';
 import { weddingHalls } from '../data/mockData';
@@ -30,6 +30,47 @@ function ServiceDetailPage() {
       setIsChatOpen(true);
     }
   }, [location.search]);
+
+  const [isSdkLoaded, setIsSdkLoaded] = useState(false);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
+    script.onload = () => {
+        kakao.maps.load(() => {
+            setIsSdkLoaded(true);
+        });
+    };
+    document.head.appendChild(script);
+  }, []);
+
+  const mapContainer = useRef(null);
+
+  useEffect(() => {
+    if (isSdkLoaded && service.address && mapContainer.current) {
+        const geocoder = new window.kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(service.address, function(result, status) {
+            if (status === window.kakao.maps.services.Status.OK) {
+                const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+
+                const mapOption = {
+                    center: coords,
+                    level: 3,
+                };
+
+                const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
+
+                const marker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: coords,
+                });
+
+                map.setCenter(coords);
+            }
+        });
+    }
+  }, [isSdkLoaded, service.address]);
 
   const handleLikeToggle = (serviceId) => {
     setLikedServices(prev => ({
@@ -121,7 +162,15 @@ function ServiceDetailPage() {
       <div className="container mx-auto px-4 py-8">
         {/* --- 상단 이미지 및 기본 정보 --- */}
         <div className="relative h-[400px] rounded-lg overflow-hidden mb-8">
-          <img src={service.image} alt={service.name} className="w-full h-full object-cover" />
+          <img 
+            src={service.image} 
+            alt={service.name} 
+            className="w-full h-full object-cover" 
+            onError={(e) => {
+              e.currentTarget.src = `https://placehold.co/1280x400/EFEFEF/AAAAAA?text=${encodeURIComponent(service.name)}`;
+              e.currentTarget.onerror = null;
+            }}
+          />
           <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-8">
             <h1 className="text-4xl font-bold text-white">{service.name}</h1>
             <p className="text-xl text-gray-200 mt-2">{service.location}</p>
@@ -166,10 +215,7 @@ function ServiceDetailPage() {
             <div>
               <h2 className="text-2xl font-bold border-b pb-4 mb-4">위치 정보</h2>
               <p className="text-base-content mb-4">{service.address}</p>
-              {/* 지도 영역은 임시로 비워둡니다 */}
-              <div className="w-full h-80 rounded-lg shadow-md bg-gray-200 flex items-center justify-center">
-                <p className="text-gray-500">지도 정보 로딩 중...</p>
-              </div>
+              <div id="map" ref={mapContainer} style={{ width: '100%', height: '320px' }} className="rounded-lg shadow-md"></div>
             </div>
 
             {/* 리뷰 섹션 */}
@@ -223,7 +269,7 @@ function ServiceDetailPage() {
               </div>
               <div className="flex justify-between items-center mb-6">
                 <span className="text-lg">평점</span>
-                <span className="text-2xl font-bold">⭐ {currentService.averageRating} ({currentService.reviewCount} 리뷰)</span>
+                <span className="text-xl font-bold">⭐ {currentService.averageRating} ({currentService.reviewCount} 리뷰)</span>
               </div>
               {currentBooking?.status === '예약 확정' ? (
                  <button className="btn btn-disabled w-full">상담 및 예약이 확정되었습니다.</button>

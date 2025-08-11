@@ -27,9 +27,14 @@ export const NotificationProvider = ({ children }) => {
     );
   }, []);
 
+  const hasUnreadProposals = useCallback((requestId) => {
+    return proposals.some(p => p.requestId === requestId && !p.read);
+  }, [proposals]);
+
   const value = {
     unreadProposalsCount,
     markProposalAsRead,
+    hasUnreadProposals,
     proposals, // RequestDetailPage에서 사용하기 위해 전체 제안 목록도 제공
     myRequestIds,
   };

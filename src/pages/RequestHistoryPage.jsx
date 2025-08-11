@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { mockRequests } from '../data/mockData';
 import { TagIcon, MapPinIcon, CurrencyDollarIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { useNotifications } from '../context/NotificationContext';
 
 const allServiceTypes = ['웨딩 베뉴', '플래너', '스드메', '신혼여행', '혼주', '디렉팅', '케이터링'];
 const allLocations = ['서울시 강남구', '서울시 마포구', '부산시 해운대구', '제주도'];
@@ -10,6 +11,7 @@ const allVenueStyles = ['실내', '야외'];
 
 function RequestHistoryPage() {
   const currentUser = { name: '김예신' }; // 현재 로그인한 사용자 (김예신) 가정
+  const { hasUnreadProposals } = useNotifications();
 
   const [filters, setFilters] = useState({
     serviceType: [],
@@ -141,7 +143,14 @@ function RequestHistoryPage() {
                 <div className="card lg:card-side bg-white shadow-xl hover:bg-base-100 transition-colors duration-200 border border-gray-200 rounded-lg overflow-hidden">
                   <div className="card-body lg:w-full p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <h2 className="card-title text-xl font-bold text-gray-800">{req.title}</h2>
+                      <div className="flex items-center gap-4">
+                        <h2 className="card-title text-xl font-bold text-gray-800">{req.title}</h2>
+                        {hasUnreadProposals(req.id) && (
+                          <div className="badge badge-primary font-semibold">
+                            NEW
+                          </div>
+                        )}
+                      </div>
                       <div className="flex items-center gap-2 text-sm text-gray-500">
                         <div className="avatar">
                           <div className="w-6 h-6 rounded-full">
