@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
-import { mockRequests, mockReceivedProposals } from '../data/mockData';
+import { mockRequests as initialRequests } from '../data/mockData';
 
-// This should be replaced with a real authentication check
 const CURRENT_USER_ID = 'user123';
 
 const NotificationContext = createContext();
@@ -9,34 +8,48 @@ const NotificationContext = createContext();
 export const useNotifications = () => useContext(NotificationContext);
 
 export const NotificationProvider = ({ children }) => {
-  const [proposals, setProposals] = useState(mockReceivedProposals);
+  const [requests, setRequests] = useState(initialRequests);
 
-  const myRequestIds = useMemo(() => 
-    mockRequests
-      .filter(req => req.authorId === CURRENT_USER_ID)
-      .map(req => req.id)
-  , []);
+  // Get requests authored by the current user
+  const myRequests = useMemo(() => 
+    requests.filter(req => req.authorId === CURRENT_USER_ID)
+  , [requests]);
 
-  const unreadProposalsCount = useMemo(() => 
-    proposals.filter(p => myRequestIds.includes(p.requestId) && !p.read).length
-  , [proposals, myRequestIds]);
+  // Calculate the total number of unread messages across all proposals for the user
+  const totalUnreadCount = useMemo(() => {
+    return myRequests.reduce((total, req) => {
+      const unreadInRequest = req.proposals?.reduce((reqTotal, p) => reqTotal + (p.newMessagesCount || 0), 0) || 0;
+      return total + unreadInRequest;
+    }, 0);
+  }, [myRequests]);
 
-  const markProposalAsRead = useCallback((proposalId) => {
-    setProposals(prev => 
-      prev.map(p => p.id === proposalId ? { ...p, read: true } : p)
+  // Mark a specific proposal's messages as read
+  const markNotificationAsRead = useCallback((requestId, proposalId) => {
+    setRequests(prevRequests =>
+      prevRequests.map(req => {
+        if (req.id === requestId && req.proposals) {
+          return {
+            ...req,
+            proposals: req.proposals.map(p => 
+              p.id === proposalId ? { ...p, newMessagesCount: 0, read: true } : p
+            ),
+          };
+        }
+        return req;
+      })
     );
   }, []);
-
-  const hasUnreadProposals = useCallback((requestId) => {
-    return proposals.some(p => p.requestId === requestId && !p.read);
-  }, [proposals]);
+  
+  // Get a specific request by its ID
+  const getRequestById = useCallback((requestId) => {
+    return requests.find(req => req.id === parseInt(requestId));
+  }, [requests]);
 
   const value = {
-    unreadProposalsCount,
-    markProposalAsRead,
-    hasUnreadProposals,
-    proposals, // RequestDetailPage에서 사용하기 위해 전체 제안 목록도 제공
-    myRequestIds,
+    myRequests,
+    totalUnreadCount,
+    markNotificationAsRead,
+    getRequestById,
   };
 
   return (

@@ -26,9 +26,6 @@ function ChatRoom({
     <div className="fixed bottom-4 right-4 w-96 h-[500px] bg-white rounded-lg shadow-xl flex flex-col z-50">
       <div className="flex justify-between items-center p-4 bg-primary text-white rounded-t-lg">
         <h3 className="font-bold text-lg">{serviceName}</h3>
-        <button onClick={onClose} className="btn btn-sm btn-ghost">
-          <XMarkIcon className="h-6 w-6" />
-        </button>
       </div>
 
       <div ref={chatBodyRef} className="flex-grow p-4 overflow-y-auto bg-base-100">

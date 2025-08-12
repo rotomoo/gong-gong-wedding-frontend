@@ -6,7 +6,7 @@ import ReservationRequestModal from '../components/common/ReservationRequestModa
 import { weddingHalls } from '../data/mockData';
 import { getServiceTypeBadgeColor, getVenueStyleBadgeColor, getTypeBadgeColor, getDetailBadgeColor } from '../utils/badgeStyles';
 import { useBookings } from '../context/BookingContext';
-import { StarIcon, ShieldCheckIcon, BuildingOfficeIcon, UserIcon, PhoneIcon, EnvelopeIcon, CheckCircleIcon, GiftIcon, InformationCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
+import { StarIcon, ShieldCheckIcon, BuildingOfficeIcon, UserIcon, PhoneIcon, EnvelopeIcon, CheckCircleIcon, GiftIcon, InformationCircleIcon, ArrowTopRightOnSquareIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
 
 const InfoListItem = ({ icon, children }) => (
   <li className="flex items-start"><span className="mr-3 text-primary">{icon}</span><span>{children}</span></li>
@@ -23,17 +23,26 @@ function ServiceDetailPage() {
   const { id } = useParams();
   const service = weddingHalls.find(item => item.id === parseInt(id));
   
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [mainImage, setMainImage] = useState(service?.gallery?.[0] || service?.image);
 
   const { bookings, addOrUpdateBooking, addMessageToBooking } = useBookings();
-  const currentBooking = bookings.find(b => b.serviceId === service?.id && b.type === 'service');
+  const currentBooking = bookings.find(b => b.serviceId === service?.id);
 
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
   const mapContainer = useRef(null);
+
+  useEffect(() => {
+    if (!currentBooking) {
+      addOrUpdateBooking({
+        serviceId: service.id, serviceName: service.name, type: 'service', status: '상담 중',
+        bookingDate: new Date().toISOString().slice(0, 10), price: service.price, details: '서비스 상담 시작',
+        messages: [{ sender: 'system', text: '안녕하세요! 무엇을 도와드릴까요?' }],
+      });
+    }
+  }, [currentBooking, addOrUpdateBooking, service]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -56,17 +65,6 @@ function ServiceDetailPage() {
     }
   }, [isSdkLoaded, service?.address]);
 
-  const handleConsultationClick = () => {
-    if (!currentBooking) {
-      addOrUpdateBooking({
-        serviceId: service.id, serviceName: service.name, type: 'service', status: '상담 중',
-        bookingDate: new Date().toISOString().slice(0, 10), price: service.price, details: '서비스 상담 시작',
-        messages: [{ sender: 'system', text: '안녕하세요! 무엇을 도와드릴까요?' }],
-      });
-    }
-    setIsChatOpen(true);
-  };
-
   const handleSendMessage = useCallback((text) => {
     addMessageToBooking(service.id, { sender: 'user', text });
     setTimeout(() => {
@@ -79,7 +77,6 @@ function ServiceDetailPage() {
     setIsReservationModalOpen(false);
     const userMessage = `[예약 요청]\n- 희망 날짜: ${details.dates.join(', ')}\n- 희망 시간대: ${details.times.join(', ')}`;
     addMessageToBooking(service.id, { sender: 'user', text: userMessage });
-    setIsChatOpen(true);
     setTimeout(() => {
       addOrUpdateBooking({ serviceId: service.id, type: 'service', status: '예약 가능' });
       addMessageToBooking(service.id, { 
@@ -112,14 +109,14 @@ function ServiceDetailPage() {
   };
 
   const renderBookingActions = () => {
-    if (!currentBooking) return <button className="btn btn-primary w-full" onClick={handleConsultationClick}>실시간 상담하기</button>;
+    if (!currentBooking) return <button className="btn btn-primary w-full">실시간 상담하기</button>;
     switch (currentBooking.status) {
-      case '상담 중': return <><button className="btn btn-primary w-full" onClick={() => setIsReservationModalOpen(true)}>예약하기</button><div className="divider my-2"></div><button className="btn btn-outline w-full" onClick={() => setIsChatOpen(true)}>상담 이어하기</button></>;
+      case '상담 중': return <button className="btn btn-primary w-full" onClick={() => setIsReservationModalOpen(true)}>예약하기</button>;
       case '예약 요청됨': return <button className="btn btn-disabled w-full">업체 응답 대기 중...</button>;
       case '예약 가능': return <button className="btn btn-success w-full" onClick={() => openPaymentModal('deposit')}>계약금 결제하기</button>;
       case '계약금 결제 완료': return <button className="btn btn-info w-full" onClick={() => openPaymentModal('balance')}>잔금 결제하기</button>;
       case '예약 확정': return <button className="btn btn-disabled w-full">예약 확정됨</button>;
-      default: return <button className="btn btn-primary w-full" onClick={handleConsultationClick}>실시간 상담하기</button>;
+      default: return <button className="btn btn-primary w-full">실시간 상담하기</button>;
     }
   };
 
@@ -249,12 +246,12 @@ function ServiceDetailPage() {
               ) : (
                 <p className="text-gray-500">아직 작성된 리뷰가 없습니다.</p>
               )}
-              <Link to={`/service/${currentService.id}/review`} className="btn btn-primary btn-outline mt-6 w-full">리뷰 작성하기</Link>
+              
             </div>
           </div>
         </div>
 
-        {isChatOpen && currentBooking && <ChatRoom serviceName={service.name} messages={currentBooking.messages || []} onSendMessage={handleSendMessage} onClose={() => setIsChatOpen(false)} />}
+        {currentBooking && <ChatRoom serviceName={service.name} messages={currentBooking.messages || []} onSendMessage={handleSendMessage} />}
         {isReservationModalOpen && <ReservationRequestModal service={service} onClose={() => setIsReservationModalOpen(false)} onConfirm={handleReservationRequest} />}
         {isPaymentModalOpen && <PaymentModal service={service} paymentInfo={paymentInfo} onClose={() => setIsPaymentModalOpen(false)} onConfirm={handlePaymentConfirm} />}
       </div>

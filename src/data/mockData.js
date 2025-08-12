@@ -336,7 +336,7 @@ export const weddingHalls = calculateServiceRatings(initialWeddingHalls);
 export const mockRequests = [
   {
     id: 1,
-    authorId: 'user123', // 작성자 ID 추가
+    authorId: 'user123',
     title: '10월 서울, 100명 규모 스몰웨딩 스드메 구해요',
     type: '민간',
     serviceType: '스드메 & 촬영',
@@ -346,7 +346,21 @@ export const mockRequests = [
     author: '김예신',
     authorImage: 'https://placehold.co/256x256/FBCFE8/9D27B0?text=Y',
     createdAt: '2025-08-12',
-    details: '따뜻하고 자연스러운 분위기의 스튜디오와 본식 스냅을 원합니다. 헤어/메이크업 포함 견적 부탁드려요.'
+    details: '따뜻하고 자연스러운 분위기의 스튜디오와 본식 스냅을 원합니다. 헤어/메이크업 포함 견적 부탁드려요.',
+    proposals: [
+      {
+        id: 1, // This is the proposal ID
+        requestId: 1,
+        serviceId: 7,
+        proposerName: '오브라마에스트라 스튜디오',
+        proposerImage: 'https://placehold.co/32x32/F0B8C9/FFFFFF?text=O',
+        message: '안녕하세요! 스드메 견적 요청 잘 보았습니다. 원하시는 분위기에 맞춰 최고의 스냅을 제공해 드릴 수 있습니다. 자세한 내용은 상담을 통해 안내해 드릴게요.',
+        receivedAt: '2024-05-22',
+        price: 1800000,
+        newMessagesCount: 1,
+        read: false,
+      }
+    ]
   },
   {
     id: 2,
@@ -361,7 +375,21 @@ export const mockRequests = [
     author: '결혼준비중',
     authorImage: 'https://placehold.co/32x32/A7F3D0/047857?text=K',
     createdAt: '2024-05-20',
-    details: '한강공원에서 소규모 야외 결혼식을 계획중입니다. 전체 디렉팅 및 케이터링 업체 추천 가능하신 분 찾아요.'
+    details: '한강공원에서 소규모 야외 결혼식을 계획중입니다. 전체 디렉팅 및 케이터링 업체 추천 가능하신 분 찾아요.',
+    proposals: [
+       {
+        id: 2, // This is the proposal ID
+        requestId: 2,
+        serviceId: 15,
+        proposerName: '더블유디렉팅',
+        proposerImage: 'https://placehold.co/32x32/C2A8D9/FFFFFF?text=W',
+        message: '한강공원 야외 결혼식 디렉팅 문의 주셨네요. 저희는 자연 친화적인 스몰 웨딩 전문입니다. 특별한 날을 위한 맞춤형 기획을 제안해 드립니다.',
+        receivedAt: '2024-05-23',
+        price: 3000000,
+        newMessagesCount: 2, // Example with 2 new messages
+        read: false,
+      }
+    ]
   },
   {
     id: 3,

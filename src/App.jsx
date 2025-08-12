@@ -17,34 +17,39 @@ import CommunityWritePage from './pages/CommunityWritePage';
 import ReviewFormPage from './pages/ReviewFormPage';
 import ConsultationChatPage from './pages/ConsultationChatPage';
 import { BookingProvider } from './context/BookingContext';
+import { NotificationProvider } from './context/NotificationContext';
 import PolicyInfoPage from './pages/PolicyInfoPage';
 import ScrollToTop from './components/common/ScrollToTop';
 
 function App() {
   return (
     <Router>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<MainPage />} />
-          <Route path="search" element={<PlannerSearchPage />} />
-          <Route path="request-form" element={<RequestFormPage />} />
-          <Route path="requests" element={<RequestListPage />} />
-          <Route path="service-register" element={<ServiceRegisterPage />} />
-          <Route path="/service/:id" element={<ServiceDetailPage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/bookings" element={<BookingListPage />} />
-          <Route path="/liked-services" element={<LikedServicesPage />} />
-          <Route path="/request-history" element={<RequestHistoryPage />} />
-          <Route path="/request/:id" element={<RequestDetailPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community/:id" element={<CommunityDetailPage />} />
-          <Route path="/community/write" element={<CommunityWritePage />} />
-          <Route path="/service/:id/review" element={<ReviewFormPage />} />
-          <Route path="/consultation/:id" element={<ConsultationChatPage />} />
-          <Route path="/policy-info" element={<PolicyInfoPage />} />
-        </Route>
-      </Routes>
+      <NotificationProvider>
+        <BookingProvider>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<MainPage />} />
+              <Route path="search" element={<PlannerSearchPage />} />
+              <Route path="request-form" element={<RequestFormPage />} />
+              <Route path="requests" element={<RequestListPage />} />
+              <Route path="service-register" element={<ServiceRegisterPage />} />
+              <Route path="/service/:id" element={<ServiceDetailPage />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/bookings" element={<BookingListPage />} />
+              <Route path="/liked-services" element={<LikedServicesPage />} />
+              <Route path="/request-history" element={<RequestHistoryPage />} />
+              <Route path="/request/:id" element={<RequestDetailPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/community/:id" element={<CommunityDetailPage />} />
+              <Route path="/community/write" element={<CommunityWritePage />} />
+              <Route path="/service/:id/review" element={<ReviewFormPage />} />
+              <Route path="/consultation/:requestId/:proposalId" element={<ConsultationChatPage />} />
+              <Route path="/policy-info" element={<PolicyInfoPage />} />
+            </Route>
+          </Routes>
+        </BookingProvider>
+      </NotificationProvider>
     </Router>
   );
 }

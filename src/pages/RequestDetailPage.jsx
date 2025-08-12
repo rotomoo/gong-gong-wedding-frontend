@@ -1,38 +1,45 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { mockRequests, mockReceivedProposals, weddingHalls } from '../data/mockData';
+import { weddingHalls } from '../data/mockData'; // Keep for service details
 import ChatRoom from '../components/ChatRoom';
 import PaymentModal from '../components/common/PaymentModal';
 import { useNotifications } from '../context/NotificationContext';
 import { useBookings } from '../context/BookingContext';
-import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
+import { ChatBubbleLeftRightIcon, BellIcon } from '@heroicons/react/24/solid';
 
 const CURRENT_USER_ID = 'user123';
 
 function RequestDetailPage() {
   const { id } = useParams();
-  const { markProposalAsRead } = useNotifications();
+  const { getRequestById, markNotificationAsRead } = useNotifications();
   const { bookings, addOrUpdateBooking, addMessageToBooking } = useBookings();
 
-  const request = mockRequests.find(req => req.id === parseInt(id));
-  
   const [activeChat, setActiveChat] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState(null);
+
+  const request = getRequestById(id);
+
+  const handleSendMessage = useCallback((text) => {
+    if (!activeChat) return;
+    addMessageToBooking(activeChat.serviceId, { sender: 'user', text });
+    setTimeout(() => {
+      addMessageToBooking(activeChat.serviceId, { sender: 'partner', text: '네, 문의 확인했습니다. 곧 답변 드리겠습니다.' });
+    }, 1000);
+  }, [activeChat, addMessageToBooking]);
 
   if (!request) {
     return <div className="container mx-auto p-8 text-center text-xl">존재하지 않는 견적 요청입니다.</div>;
   }
 
   const isMyRequest = request.authorId === CURRENT_USER_ID;
-  const proposals = mockReceivedProposals.filter(p => p.requestId === request?.id);
+  const proposals = request.proposals || [];
 
   const handleProposalClick = (proposal) => {
     if (!isMyRequest) return;
 
     const bookingExists = bookings.some(b => b.serviceId === proposal.serviceId);
     if (!bookingExists) {
-      // When opening chat for the first time, create the booking with the initial proposal message.
       const initialMessage = { sender: 'partner', text: proposal.message };
       addOrUpdateBooking({
         serviceId: proposal.serviceId,
@@ -44,7 +51,7 @@ function RequestDetailPage() {
       });
     }
     setActiveChat(proposal);
-    markProposalAsRead(proposal.id);
+    markNotificationAsRead(request.id, proposal.id);
   };
 
   const handleAcceptProposal = (proposal) => {
@@ -56,14 +63,6 @@ function RequestDetailPage() {
     });
     setActiveChat(proposal);
   };
-
-  const handleSendMessage = useCallback((text) => {
-    if (!activeChat) return;
-    addMessageToBooking(activeChat.serviceId, { sender: 'user', text });
-    setTimeout(() => {
-      addMessageToBooking(activeChat.serviceId, { sender: 'partner', text: '네, 문의 확인했습니다. 곧 답변 드리겠습니다.' });
-    }, 1000);
-  }, [activeChat, addMessageToBooking]);
 
   const openPaymentModal = (type, booking) => {
     const service = weddingHalls.find(h => h.id === booking.serviceId);
@@ -133,9 +132,17 @@ function RequestDetailPage() {
                     {proposals.map(proposal => (
                       <div key={proposal.id} className="p-4 border border-gray-200 rounded-lg hover:bg-base-100 transition-colors duration-200">
                         <div onClick={() => handleProposalClick(proposal)} className="cursor-pointer">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="avatar"><div className="w-10 h-10 rounded-full"><img src={proposal.proposerImage} alt={proposal.proposerName} /></div></div>
-                            <div><p className="font-semibold text-gray-800">{proposal.proposerName}</p><p className="text-xs text-gray-400">{proposal.receivedAt}</p></div>
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="avatar"><div className="w-10 h-10 rounded-full"><img src={proposal.proposerImage} alt={proposal.proposerName} /></div></div>
+                              <div><p className="font-semibold text-gray-800">{proposal.proposerName}</p><p className="text-xs text-gray-400">{proposal.receivedAt}</p></div>
+                            </div>
+                            {proposal.newMessagesCount > 0 && (
+                              <div className="indicator">
+                                <span className="indicator-item badge badge-error">{proposal.newMessagesCount}</span>
+                                <BellIcon className="h-6 w-6 text-primary" />
+                              </div>
+                            )}
                           </div>
                           <p className="text-sm text-gray-600 line-clamp-2 mt-2">{proposal.message}</p>
                           <p className="text-right font-bold text-primary mt-2">제안가: {proposal.price.toLocaleString()}원</p>

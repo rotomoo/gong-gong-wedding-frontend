@@ -45,7 +45,7 @@ function PaymentModal({ service, paymentInfo, onClose, onConfirm }) {
               <CurrencyDollarIcon className="h-6 w-6 mr-3 text-green-500"/>
               <div>
                 <span className="font-semibold">지역화폐 (예: 서울사랑상품권)</span>
-                <p className="text-xs text-gray-500">결제 시 지역화폐 앱으로 연동됩니다.</p>
+                <p className="text-xs text-gray-500">민생회복 소비쿠폰도 가능합니다.</p>
               </div>
             </div>
           </div>
