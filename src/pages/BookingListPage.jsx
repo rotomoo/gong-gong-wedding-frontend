@@ -4,7 +4,7 @@ import { weddingHalls } from '../data/mockData';
 import { useBookings } from '../context/BookingContext';
 import { TagIcon, MapPinIcon, CurrencyDollarIcon, XMarkIcon, ChevronDownIcon, CalendarDaysIcon, StarIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
-const allServiceTypes = ['웨딩 베뉴', '플래너', '스드메', '신혼여행', '혼주', '디렉팅', '케이터링'];
+const allServiceTypes = ['웨딩 베뉴', '플래너', '스드메 & 촬영', '본식', '혼수 & 소품', '신혼여행'];
 const allLocations = ['서울시', '부산시', '제주도'];
 const allTypes = ['공공', '민간'];
 const allBookingStatuses = ['상담 중', '계약금 결제 완료', '예약 확정'];

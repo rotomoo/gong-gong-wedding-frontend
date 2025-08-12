@@ -25,40 +25,46 @@ export const BookingProvider = ({ children }) => {
     localStorage.setItem('userBookings', JSON.stringify(bookings));
   }, [bookings]);
 
-  const addOrUpdateBooking = useCallback((newBooking) => {
+  const addOrUpdateBooking = useCallback((bookingUpdate) => {
     setBookings(prevBookings => {
-      const existingBookingIndex = prevBookings.findIndex(
-        b => b.serviceId === newBooking.serviceId && b.type === newBooking.type
-      );
+      const index = prevBookings.findIndex(b => b.serviceId === bookingUpdate.serviceId);
 
-      if (existingBookingIndex > -1) {
+      if (index > -1) {
+        // Update existing booking
         const updatedBookings = [...prevBookings];
-        const existingBooking = updatedBookings[existingBookingIndex];
-        updatedBookings[existingBookingIndex] = { 
+        const existingBooking = updatedBookings[index];
+        updatedBookings[index] = { 
           ...existingBooking, 
-          ...newBooking,
-          messages: existingBooking.messages || [], // Preserve messages
+          ...bookingUpdate,
+          // Ensure messages are merged, not overwritten, if the update doesn't include them
+          messages: bookingUpdate.messages || existingBooking.messages || [],
         };
         return updatedBookings;
       } else {
+        // Add new booking
         return [...prevBookings, { 
           id: Date.now(), 
-          ...newBooking,
-          messages: newBooking.messages || [], // Start with initial messages if provided
+          ...bookingUpdate,
+          messages: bookingUpdate.messages || [],
         }];
       }
     });
   }, []);
 
-  const addMessageToBooking = useCallback((serviceId, message) => {
+  const addMessageToBooking = useCallback((serviceId, message, isInitialMessage = false) => {
     setBookings(prevBookings => {
-      return prevBookings.map(booking => {
-        if (booking.serviceId === serviceId) {
-          const updatedMessages = booking.messages ? [...booking.messages, message] : [message];
-          return { ...booking, messages: updatedMessages };
-        }
-        return booking;
-      });
+      const index = prevBookings.findIndex(b => b.serviceId === serviceId);
+      if (index === -1) return prevBookings; // Should not happen if booking is created first
+
+      const updatedBookings = [...prevBookings];
+      const booking = updatedBookings[index];
+      
+      const newMessages = isInitialMessage 
+        ? [message, ...(booking.messages || [])] 
+        : [...(booking.messages || []), message];
+
+      updatedBookings[index] = { ...booking, messages: newMessages };
+      return updatedBookings;
     });
   }, []);
 

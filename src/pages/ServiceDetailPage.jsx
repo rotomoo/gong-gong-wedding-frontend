@@ -1,94 +1,66 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import ChatRoom from '../components/ChatRoom';
+import PaymentModal from '../components/common/PaymentModal';
+import ReservationRequestModal from '../components/common/ReservationRequestModal';
 import { weddingHalls } from '../data/mockData';
-import { getServiceTypeBadgeColor, getVenueStyleBadgeColor, getTypeBadgeColor } from '../utils/badgeStyles';
+import { getServiceTypeBadgeColor, getVenueStyleBadgeColor, getTypeBadgeColor, getDetailBadgeColor } from '../utils/badgeStyles';
 import { useBookings } from '../context/BookingContext';
-import { StarIcon, ShieldCheckIcon, HeartIcon, TagIcon, MapPinIcon, CurrencyDollarIcon, XMarkIcon, ChevronDownIcon, CalendarDaysIcon } from '@heroicons/react/24/solid';
+import { StarIcon, ShieldCheckIcon, BuildingOfficeIcon, UserIcon, PhoneIcon, EnvelopeIcon, CheckCircleIcon, GiftIcon, InformationCircleIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
+
+const InfoListItem = ({ icon, children }) => (
+  <li className="flex items-start"><span className="mr-3 text-primary">{icon}</span><span>{children}</span></li>
+);
+
+const DetailListItem = ({ label, value }) => (
+  <div className="flex border-b py-3">
+    <span className="w-1/3 font-semibold text-gray-600">{label}</span>
+    <span className="w-2/3 text-gray-800">{value}</span>
+  </div>
+);
 
 function ServiceDetailPage() {
   const { id } = useParams();
-  const location = useLocation();
   const service = weddingHalls.find(item => item.id === parseInt(id));
+  
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [likedServices, setLikedServices] = useState(() => {
-    const saved = localStorage.getItem('likedServices');
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const [mainImage, setMainImage] = useState(service?.gallery?.[0] || service?.image);
+
   const { bookings, addOrUpdateBooking, addMessageToBooking } = useBookings();
-
-  const currentBooking = bookings.find(b => b.serviceId === service.id && b.type === 'service');
-  const hasOngoingConsultation = !!currentBooking;
-
-  useEffect(() => {
-    localStorage.setItem('likedServices', JSON.stringify(likedServices));
-  }, [likedServices]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    if (queryParams.get('openChat') === 'true') {
-      setIsChatOpen(true);
-    }
-  }, [location.search]);
+  const currentBooking = bookings.find(b => b.serviceId === service?.id && b.type === 'service');
 
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
+  const mapContainer = useRef(null);
 
   useEffect(() => {
     const script = document.createElement('script');
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
-    script.onload = () => {
-        kakao.maps.load(() => {
-            setIsSdkLoaded(true);
-        });
-    };
+    script.onload = () => window.kakao.maps.load(() => setIsSdkLoaded(true));
     document.head.appendChild(script);
   }, []);
 
-  const mapContainer = useRef(null);
-
   useEffect(() => {
-    if (isSdkLoaded && service.address && mapContainer.current) {
-        const geocoder = new window.kakao.maps.services.Geocoder();
-
-        geocoder.addressSearch(service.address, function(result, status) {
-            if (status === window.kakao.maps.services.Status.OK) {
-                const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-
-                const mapOption = {
-                    center: coords,
-                    level: 3,
-                };
-
-                const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
-
-                const marker = new window.kakao.maps.Marker({
-                    map: map,
-                    position: coords,
-                });
-
-                map.setCenter(coords);
-            }
-        });
+    if (isSdkLoaded && service?.address && mapContainer.current) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      geocoder.addressSearch(service.address, (result, status) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+          const map = new window.kakao.maps.Map(mapContainer.current, { center: coords, level: 3 });
+          new window.kakao.maps.Marker({ map, position: coords });
+          map.setCenter(coords);
+        }
+      });
     }
-  }, [isSdkLoaded, service.address]);
-
-  const handleLikeToggle = (serviceId) => {
-    setLikedServices(prev => ({
-      ...prev,
-      [serviceId]: !prev[serviceId]
-    }));
-  };
+  }, [isSdkLoaded, service?.address]);
 
   const handleConsultationClick = () => {
-    if (!hasOngoingConsultation) {
+    if (!currentBooking) {
       addOrUpdateBooking({
-        serviceId: service.id,
-        serviceName: service.name,
-        type: 'service',
-        status: '상담 중',
-        bookingDate: new Date().toISOString().slice(0, 10),
-        price: service.price,
-        details: '서비스 상담 시작',
+        serviceId: service.id, serviceName: service.name, type: 'service', status: '상담 중',
+        bookingDate: new Date().toISOString().slice(0, 10), price: service.price, details: '서비스 상담 시작',
         messages: [{ sender: 'system', text: '안녕하세요! 무엇을 도와드릴까요?' }],
       });
     }
@@ -97,147 +69,177 @@ function ServiceDetailPage() {
 
   const handleSendMessage = useCallback((text) => {
     addMessageToBooking(service.id, { sender: 'user', text });
-
-    // Simulate a bot response for demonstration
     setTimeout(() => {
       addMessageToBooking(service.id, { sender: 'partner', text: '네, 확인했습니다. 잠시만 기다려주세요.' });
     }, 1000);
   }, [addMessageToBooking, service.id]);
 
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [paymentAmount, setPaymentAmount] = useState(0);
-  const [paymentType, setPaymentType] = useState(''); // 'deposit' or 'balance'
-
-  const handleProceedToBooking = () => {
-    setPaymentAmount(service.price * 0.1);
-    setPaymentType('deposit');
-    setIsPaymentModalOpen(true);
+  const handleReservationRequest = (details) => {
+    addOrUpdateBooking({ serviceId: service.id, type: 'service', status: '예약 요청됨', ...details });
+    setIsReservationModalOpen(false);
+    const userMessage = `[예약 요청]\n- 희망 날짜: ${details.dates.join(', ')}\n- 희망 시간대: ${details.times.join(', ')}`;
+    addMessageToBooking(service.id, { sender: 'user', text: userMessage });
+    setIsChatOpen(true);
+    setTimeout(() => {
+      addOrUpdateBooking({ serviceId: service.id, type: 'service', status: '예약 가능' });
+      addMessageToBooking(service.id, { 
+        sender: 'partner', 
+        text: '고객님이 요청하신 날짜에 예약이 가능합니다! 계약금 결제를 진행해주세요.'
+      });
+    }, 3000);
   };
 
-  const handleCompletePayment = () => {
-    setPaymentAmount(service.price - (service.price * 0.1)); // 잔금 계산
-    setPaymentType('balance');
-    setIsPaymentModalOpen(true);
-  };
-
-  const processPayment = () => {
-    if (paymentType === 'deposit') {
-      addOrUpdateBooking({
-        serviceId: service.id,
-        type: 'service',
-        status: '계약금 결제 완료',
-        depositAmount: paymentAmount,
-        details: '계약금 결제 완료',
-      });
-      alert(`계약금 ${ paymentAmount.toLocaleString() }원 결제가 완료되었습니다.`);
-    } else if (paymentType === 'balance') {
-      addOrUpdateBooking({
-        serviceId: service.id,
-        type: 'service',
-        status: '예약 확정',
-        depositAmount: service.price, // 총 금액으로 변경
-        details: '잔금 결제 완료',
-      });
-      alert('잔금 결제가 완료되었습니다!');
+  const openPaymentModal = (type) => {
+    const totalPrice = currentBooking?.finalPrice || service.price;
+    if (type === 'deposit') {
+      setPaymentInfo({ type: 'deposit', title: '계약금 결제', amount: totalPrice * 0.1, totalPrice, depositPaid: 0 });
+    } else if (type === 'balance') {
+      const depositPaid = currentBooking?.depositAmount || 0;
+      setPaymentInfo({ type: 'balance', title: '잔금 결제', amount: totalPrice - depositPaid, totalPrice, depositPaid });
     }
+    setIsPaymentModalOpen(true);
+  };
+
+  const handlePaymentConfirm = (paymentMethod, amount) => {
+    const newStatus = paymentInfo.type === 'deposit' ? '계약금 결제 완료' : '예약 확정';
+    addOrUpdateBooking({
+      serviceId: service.id, type: 'service', status: newStatus,
+      depositAmount: paymentInfo.type === 'deposit' ? amount : (currentBooking?.depositAmount || 0) + amount,
+      paymentMethod: paymentMethod,
+    });
     setIsPaymentModalOpen(false);
-    setIsChatOpen(false);
+    alert(`${paymentInfo.title}이(가) 완료되었습니다.`);
   };
 
-  if (!service) {
-    console.error(`Service not found for ID: ${id}`);
-    return <div className="container mx-auto p-4 text-center text-red-500 font-bold">서비스를 찾을 수 없습니다. (ID: {id})</div>;
-  }
-
-  // Ensure reviews, averageRating, and reviewCount are always present
-  const currentService = {
-    ...service,
-    reviews: service.reviews || [],
-    averageRating: service.averageRating || 0,
-    reviewCount: service.reviewCount || 0,
+  const renderBookingActions = () => {
+    if (!currentBooking) return <button className="btn btn-primary w-full" onClick={handleConsultationClick}>실시간 상담하기</button>;
+    switch (currentBooking.status) {
+      case '상담 중': return <><button className="btn btn-primary w-full" onClick={() => setIsReservationModalOpen(true)}>예약하기</button><div className="divider my-2"></div><button className="btn btn-outline w-full" onClick={() => setIsChatOpen(true)}>상담 이어하기</button></>;
+      case '예약 요청됨': return <button className="btn btn-disabled w-full">업체 응답 대기 중...</button>;
+      case '예약 가능': return <button className="btn btn-success w-full" onClick={() => openPaymentModal('deposit')}>계약금 결제하기</button>;
+      case '계약금 결제 완료': return <button className="btn btn-info w-full" onClick={() => openPaymentModal('balance')}>잔금 결제하기</button>;
+      case '예약 확정': return <button className="btn btn-disabled w-full">예약 확정됨</button>;
+      default: return <button className="btn btn-primary w-full" onClick={handleConsultationClick}>실시간 상담하기</button>;
+    }
   };
+
+  if (!service) return <div className="container mx-auto p-4 text-center text-red-500 font-bold">서비스를 찾을 수 없습니다.</div>;
+
+  const currentService = { ...service, reviews: service.reviews || [], averageRating: service.averageRating || 0, reviewCount: service.reviewCount || 0 };
 
   return (
     <div className="bg-base-100">
       <div className="container mx-auto px-4 py-8">
-        {/* --- 상단 이미지 및 기본 정보 --- */}
-        <div className="relative h-[400px] rounded-lg overflow-hidden mb-8">
-          <img 
-            src={service.image} 
-            alt={service.name} 
-            className="w-full h-full object-cover" 
-            onError={(e) => {
-              e.currentTarget.src = `https://placehold.co/1280x400/EFEFEF/AAAAAA?text=${encodeURIComponent(service.name)}`;
-              e.currentTarget.onerror = null;
-            }}
-          />
-          <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-8">
-            <h1 className="text-4xl font-bold text-white">{service.name}</h1>
-            <p className="text-xl text-gray-200 mt-2">{service.location}</p>
-            <button
-              className="absolute top-4 right-4 btn btn-circle btn-sm bg-white bg-opacity-80 border-none"
-              onClick={() => handleLikeToggle(service.id)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`h-6 w-6 ${likedServices[service.id] ? 'text-red-500' : 'text-gray-400'}`}
-                fill={likedServices[service.id] ? 'currentColor' : 'none'}
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 22.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-            </button>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
+          <div className="lg:col-span-3">
+            <img src={mainImage} alt={service.name} className="w-full h-96 object-cover rounded-lg shadow-lg"/>
+            <div className="grid grid-cols-4 gap-2 mt-2">
+              {service.gallery?.map((img, index) => <img key={index} src={img} alt={`${service.name} gallery ${index + 1}`} className={`w-full h-24 object-cover rounded-md cursor-pointer ${mainImage === img ? 'ring-2 ring-primary' : ''}`} onClick={() => setMainImage(img)} />)}
+            </div>
+          </div>
+          <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-lg flex flex-col">
+            <h1 className="text-3xl font-bold text-gray-800">{service.name}</h1>
+            <p className="text-md text-gray-500 mt-2">{service.location}</p>
+            <div className="flex gap-2 my-4 flex-wrap">
+              <div className={`badge badge-lg badge-outline ${getServiceTypeBadgeColor(service.serviceType)}`}>{service.serviceType}</div>
+              {service.venueStyle && <div className={`badge badge-lg badge-outline ${getVenueStyleBadgeColor(service.venueStyle)}`}>{service.venueStyle}</div>}
+              {service.subCategory && <div className={`badge badge-lg badge-outline ${getDetailBadgeColor(service.subCategory)}`}>{service.subCategory}</div>}
+              <div className={`badge badge-lg badge-outline ${getTypeBadgeColor(service.type)}`}>{service.type}</div>
+            </div>
+            <div className="divider"></div>
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-lg">서비스 가격</span>
+              <div className="flex items-center">
+                {service.isVerified && <div className="tooltip" data-tip="정부에서 확인된 정찰가입니다."><ShieldCheckIcon className="h-6 w-6 text-info mr-2"/></div>}
+                <span className="text-2xl font-bold text-primary">{service.price.toLocaleString()}원</span>
+              </div>
+            </div>
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-lg">평점</span>
+              <span className="text-xl font-bold flex items-center"><StarIcon className="h-5 w-5 text-yellow-400 mr-1"/> {currentService.averageRating} ({currentService.reviewCount} 리뷰)</span>
+            </div>
+            <div className="mt-auto">
+              {renderBookingActions()}
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* --- 좌측: 상세 정보 --- */}
-          <div className="lg:col-span-2">
-            {/* 소개 */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold border-b pb-4 mb-4">서비스 소개</h2>
-              <p className="text-base-content leading-relaxed whitespace-pre-line">
-                {service.description}
-              </p>
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white p-6 rounded-lg shadow-lg"><h2 className="text-2xl font-bold border-b pb-4 mb-4">서비스 소개</h2><p className="text-base-content leading-relaxed whitespace-pre-line">{service.description}</p></div>
+            
+            {service.includedItems && <div className="bg-white p-6 rounded-lg shadow-lg"><h2 className="text-2xl font-bold border-b pb-4 mb-4">포함 내역</h2><ul className="space-y-3">{service.includedItems?.map((item, index) => <InfoListItem key={index} icon={<CheckCircleIcon className="h-6 w-6"/>}>{item}</InfoListItem>)}</ul></div>}
+            
+            {service.benefits?.length > 0 && <div className="bg-white p-6 rounded-lg shadow-lg"><h2 className="text-2xl font-bold border-b pb-4 mb-4">특별 혜택</h2><ul className="space-y-3">{service.benefits.map((item, index) => <InfoListItem key={index} icon={<GiftIcon className="h-6 w-6"/>}>{item}</InfoListItem>)}</ul></div>}
+
+            {service.hallInfo && (() => {
+              const mealPrice = String(service.hallInfo.mealPrice || '');
+              const displayMealPrice = mealPrice.includes('~') ? mealPrice.split('~')[0].trim() : mealPrice;
+
+              return (
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                  <h2 className="text-2xl font-bold border-b pb-4 mb-4">홀 기본 정보</h2>
+                  <div className="space-y-2">
+                    <DetailListItem label="홀 타입" value={service.hallInfo.type} />
+                    <DetailListItem label="메뉴 종류" value={service.hallInfo.menu} />
+                    <DetailListItem label="식대" value={displayMealPrice} />
+                    <DetailListItem label="보증 인원" value={service.hallInfo.guarantee} />
+                    <DetailListItem label="예식 간격" value={service.hallInfo.interval} />
+                    <DetailListItem label="주차" value={service.hallInfo.parking} />
+                  </div>
+                </div>
+              );
+            })()}
+
+            {service.detailedInfo && (
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold border-b pb-4 mb-4">상세 정보 ({service.detailedInfo.hallName})</h2>
+                <div className="space-y-2">
+                  <DetailListItem label="수용 인원" value={service.detailedInfo.capacity} />
+                </div>
+              </div>
+            )}
+
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold border-b pb-4 mb-4">업체 정보 및 위치</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">업체 정보</h3>
+                  <ul className="space-y-3">
+                    <InfoListItem icon={<BuildingOfficeIcon className="h-6 w-6"/>}><b>상호명:</b> {service.vendorInfo?.name}</InfoListItem>
+                    <InfoListItem icon={<UserIcon className="h-6 w-6"/>}><b>대표자:</b> {service.vendorInfo?.ceo}</InfoListItem>
+                    <InfoListItem icon={<InformationCircleIcon className="h-6 w-6"/>}><b>사업자번호:</b> {service.vendorInfo?.license}</InfoListItem>
+                    <InfoListItem icon={<PhoneIcon className="h-6 w-6"/>}><b>연락처:</b> {service.vendorInfo?.phone}</InfoListItem>
+                    <InfoListItem icon={<EnvelopeIcon className="h-6 w-6"/>}><b>이메일:</b> {service.vendorInfo?.email}</InfoListItem>
+                  </ul>
+                  {service.website && (
+                    <a href={service.website} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-primary mt-4">
+                      <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-2" />
+                      공식 홈페이지 방문
+                    </a>
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-3">위치 정보</h3>
+                  <p className="text-base-content mb-4">{service.address}</p>
+                  <div id="map" ref={mapContainer} style={{ width: '100%', height: '320px' }} className="rounded-lg shadow-md"></div>
+                </div>
+              </div>
             </div>
+          </div>
 
-            {/* 태그 */}
-            <div className="flex gap-2 my-4 flex-wrap">
-              <div className={`badge badge-lg badge-outline ${getServiceTypeBadgeColor(service.serviceType)}`}>{service.serviceType}</div>
-              {service.venueStyle && <div className={`badge badge-lg badge-outline ${getVenueStyleBadgeColor(service.venueStyle)}`}>{service.venueStyle}</div>}
-              <div className={`badge badge-lg badge-outline ${getTypeBadgeColor(service.type)}`}>{service.type}</div>
-            </div>
-
-            <div className="divider"></div>
-
-            {/* 위치 정보 */}
-            <div>
-              <h2 className="text-2xl font-bold border-b pb-4 mb-4">위치 정보</h2>
-              <p className="text-base-content mb-4">{service.address}</p>
-              <div id="map" ref={mapContainer} style={{ width: '100%', height: '320px' }} className="rounded-lg shadow-md"></div>
-            </div>
-
-            {/* 리뷰 섹션 */}
-            <div className="mt-8">
+          <div className="lg:col-span-1">
+            <div className="sticky top-24 bg-white p-6 rounded-lg shadow-lg">
               <h2 className="text-2xl font-bold border-b pb-4 mb-4">리뷰 ({currentService.reviewCount})</h2>
-              {currentService.reviews && currentService.reviews.length > 0 ? (
-                <div className="space-y-6">
+              {currentService.reviews.length > 0 ? (
+                <div className="space-y-6 max-h-[40rem] overflow-y-auto pr-2">
                   {currentService.reviews.map(review => (
                     <div key={review.id} className="bg-base-100 p-4 rounded-lg shadow-sm border border-gray-200">
                       <div className="flex items-center mb-2">
-                        <div className="avatar mr-3">
-                          <div className="w-10 h-10 rounded-full">
-                            <img src={review.authorImage} alt={review.author} />
-                          </div>
-                        </div>
+                        <div className="avatar mr-3"><div className="w-10 h-10 rounded-full"><img src={review.authorImage} alt={review.author} /></div></div>
                         <div>
                           <p className="font-semibold text-gray-800">{review.author}</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <StarIcon className="h-4 w-4 text-yellow-400 mr-1" />
-                            <span>{review.rating}</span>
-                            <span className="ml-2">{review.createdAt}</span>
-                          </div>
+                          <div className="flex items-center text-sm text-gray-500"><StarIcon className="h-4 w-4 text-yellow-400 mr-1" /><span>{review.rating}</span><span className="ml-2">{review.createdAt}</span></div>
                         </div>
                       </div>
                       <p className="text-gray-700 leading-relaxed">{review.comment}</p>
@@ -245,73 +247,16 @@ function ServiceDetailPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요!</p>
+                <p className="text-gray-500">아직 작성된 리뷰가 없습니다.</p>
               )}
-              <Link to={`/service/${currentService.id}/review`} className="btn btn-primary mt-6">리뷰 작성</Link>
-            </div>
-          </div>
-
-          {/* --- 우측: 가격 및 상담 버튼 --- */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 card bg-base-200 shadow-xl p-6">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-lg">서비스 가격</span>
-                <div className="flex items-center">
-                  {service.isVerified && (
-                    <div className="tooltip" data-tip="정부에서 확인된 정찰가입니다.">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-info mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                  <span className="text-2xl font-bold text-primary">{service.price.toLocaleString()}원</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center mb-6">
-                <span className="text-lg">평점</span>
-                <span className="text-xl font-bold">⭐ {currentService.averageRating} ({currentService.reviewCount} 리뷰)</span>
-              </div>
-              {currentBooking?.status === '예약 확정' ? (
-                 <button className="btn btn-disabled w-full">상담 및 예약이 확정되었습니다.</button>
-              ) : (
-                <button className="btn btn-primary w-full" onClick={handleConsultationClick}>
-                  {hasOngoingConsultation ? '상담 이어하기' : '실시간 상담하기'}
-                </button>
-              )}
-              
-              {currentBooking && currentBooking.status === '상담 중' && (
-                <button className="btn btn-success w-full mt-4" onClick={handleProceedToBooking}>계약금 결제하기</button>
-              )}
-              {currentBooking && currentBooking.status === '계약금 결제 완료' && (
-                <button className="btn btn-info w-full mt-4" onClick={handleCompletePayment}>잔금 결제하기</button>
-              )}
+              <Link to={`/service/${currentService.id}/review`} className="btn btn-primary btn-outline mt-6 w-full">리뷰 작성하기</Link>
             </div>
           </div>
         </div>
 
-        {isChatOpen && currentBooking && (
-          <ChatRoom
-            serviceName={service.name}
-            messages={currentBooking.messages || []}
-            onSendMessage={handleSendMessage}
-            onClose={() => setIsChatOpen(false)}
-          />
-        )}
-
-        {isPaymentModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 max-w-sm w-full">
-              <h2 className="text-2xl font-bold mb-4">결제 진행</h2>
-              <p className="mb-2">서비스: {service.name}</p>
-              <p className="mb-2">결제 종류: {paymentType === 'deposit' ? '계약금' : '잔금'}</p>
-              <p className="text-lg font-semibold mb-6">결제 금액: {paymentAmount.toLocaleString()}원</p>
-              <div className="flex justify-end gap-4">
-                <button className="btn" onClick={() => setIsPaymentModalOpen(false)}>취소</button>
-                <button className="btn btn-primary" onClick={processPayment}>결제 확정</button>
-              </div>
-            </div>
-          </div>
-        )}
+        {isChatOpen && currentBooking && <ChatRoom serviceName={service.name} messages={currentBooking.messages || []} onSendMessage={handleSendMessage} onClose={() => setIsChatOpen(false)} />}
+        {isReservationModalOpen && <ReservationRequestModal service={service} onClose={() => setIsReservationModalOpen(false)} onConfirm={handleReservationRequest} />}
+        {isPaymentModalOpen && <PaymentModal service={service} paymentInfo={paymentInfo} onClose={() => setIsPaymentModalOpen(false)} onConfirm={handlePaymentConfirm} />}
       </div>
     </div>
   );

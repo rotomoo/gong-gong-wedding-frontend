@@ -18,10 +18,12 @@ import ReviewFormPage from './pages/ReviewFormPage';
 import ConsultationChatPage from './pages/ConsultationChatPage';
 import { BookingProvider } from './context/BookingContext';
 import PolicyInfoPage from './pages/PolicyInfoPage';
+import ScrollToTop from './components/common/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />

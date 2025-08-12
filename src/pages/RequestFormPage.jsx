@@ -1,18 +1,30 @@
 import React, { useState, useMemo } from 'react';
 
-const allCities = ['서울시', '부산시', '제주도'];
+// PlannerSearchPage와 동일한 카테고리 구조 사용
+const categories = {
+  '웨딩 베뉴': ['실내', '야외', '호텔', '컨벤션', '하우스웨딩'],
+  '플래너': ['동행플래너', '비동행플래너', '디렉팅', '케이터링'],
+  '스드메 & 촬영': ['스튜디오', '드레스', '메이크업', '토탈촬영'],
+  '본식': ['본식스냅', '주례', '사회자', '축가', '웨딩카', '청첩장'],
+  '혼수 & 소품': ['한복', '예복', '예물', '답례품'],
+  '신혼여행': [],
+};
+const categoryOrder = ['웨딩 베뉴', '플래너', '스드메 & 촬영', '본식', '혼수 & 소품', '신혼여행'];
+
+const allCities = ['서울시', '부산시', '제주도', '전국', '온라인'];
 const districtsByCity = {
-  '서울시': ['강남구', '마포구'], // mockRequests에 있는 구만 포함
-  '부산시': ['해운대구'],
-  '제주도': ['제주도'], // 제주도는 시/군구 구분이 필요 없을 수 있음
+  '서울시': ['강남구', '강북구', '마포구', '성동구', '종로구', '중구', '서초구'],
+  '부산시': ['해운대구', '수영구', '남구'],
+  '제주도': ['제주시', '서귀포시'],
 };
 
 function RequestFormPage() {
   const [formState, setFormState] = useState({
     title: '',
-    category: '웨딩 베뉴',
-    city: '', // city 추가
-    district: '', // district 추가
+    serviceType: '',
+    subCategory: '',
+    city: '',
+    district: '',
     date: '',
     budget: '',
     details: '',
@@ -21,10 +33,14 @@ function RequestFormPage() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormState(prevState => {
+      const newState = { ...prevState, [name]: value };
       if (name === 'city') {
-        return { ...prevState, [name]: value, district: '' }; // 시/도 변경 시 군/구 초기화
+        newState.district = '';
       }
-      return { ...prevState, [name]: value };
+      if (name === 'serviceType') {
+        newState.subCategory = '';
+      }
+      return newState;
     });
   };
 
@@ -35,7 +51,8 @@ function RequestFormPage() {
     // 폼 초기화
     setFormState({
       title: '',
-      category: '웨딩 베뉴',
+      serviceType: '',
+      subCategory: '',
       city: '',
       district: '',
       date: '',
@@ -47,6 +64,10 @@ function RequestFormPage() {
   const availableDistricts = useMemo(() => {
     return formState.city ? districtsByCity[formState.city] || [] : [];
   }, [formState.city]);
+
+  const availableSubCategories = useMemo(() => {
+    return formState.serviceType ? categories[formState.serviceType] || [] : [];
+  }, [formState.serviceType]);
 
   return (
     <div className="container mx-auto p-4">
@@ -60,32 +81,27 @@ function RequestFormPage() {
             <input type="text" id="title" name="title" value={formState.title} onChange={handleInputChange} placeholder="예: 10월 서울, 100명 규모 스몰웨딩 스드메 구해요" className="input input-bordered w-full mt-2" required />
           </div>
 
-          <div>
-            <label htmlFor="category" className="text-lg font-semibold">카테고리</label>
-            <select id="category" name="category" value={formState.category} onChange={handleInputChange} className="select select-bordered w-full mt-2">
-              <option>웨딩 베뉴</option>
-              <option>플래너</option>
-              <option>스드메</option>
-              <option>신혼여행</option>
-              <option>혼주</option>
-              <option>디렉팅</option>
-              <option>케이터링</option>
-              <option>기타</option>
-            </select>
-          </div>
-
-          {formState.category === '웨딩 베뉴' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="venueStyle" className="text-lg font-semibold">베뉴 스타일</label>
-              <select id="venueStyle" name="venueStyle" value={formState.venueStyle} onChange={handleInputChange} className="select select-bordered w-full mt-2">
+              <label htmlFor="serviceType" className="text-lg font-semibold">서비스 종류</label>
+              <select id="serviceType" name="serviceType" value={formState.serviceType} onChange={handleInputChange} className="select select-bordered w-full mt-2" required>
                 <option value="">선택</option>
-                <option>실내</option>
-                <option>야외</option>
+                {categoryOrder.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
               </select>
             </div>
-          )}
+            <div>
+              <label htmlFor="subCategory" className="text-lg font-semibold">상세 분류</label>
+              <select id="subCategory" name="subCategory" value={formState.subCategory} onChange={handleInputChange} className="select select-bordered w-full mt-2" required disabled={availableSubCategories.length === 0}>
+                <option value="">선택</option>
+                {availableSubCategories.map(subCat => (
+                  <option key={subCat} value={subCat}>{subCat}</option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          {/* 지역 (도/시, 군/구) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="city" className="text-lg font-semibold">희망 도/시</label>
