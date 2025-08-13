@@ -50,7 +50,7 @@ function CommunityDetailPage() {
           </div>
 
           <h1 className="text-3xl font-extrabold text-gray-900 mb-4">{post.title}</h1>
-          <div className="prose max-w-none">
+          <div className="prose max-w-none text-gray-900"> {/* text-gray-900으로 변경 */}
             <ReactMarkdown>{post.content}</ReactMarkdown>
           </div>
 

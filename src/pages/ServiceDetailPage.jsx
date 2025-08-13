@@ -27,6 +27,7 @@ function ServiceDetailPage() {
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const [mainImage, setMainImage] = useState(service?.gallery?.[0] || service?.image);
+  const [isChatRoomOpen, setIsChatRoomOpen] = useState(false); // 이 줄 추가
 
   const { bookings, addOrUpdateBooking, addMessageToBooking } = useBookings();
   const currentBooking = bookings.find(b => b.serviceId === service?.id);
@@ -156,6 +157,26 @@ function ServiceDetailPage() {
               <span className="text-xl font-bold flex items-center"><StarIcon className="h-5 w-5 text-yellow-400 mr-1"/> {currentService.averageRating} ({currentService.reviewCount} 리뷰)</span>
             </div>
             <div className="mt-auto">
+              {/* 상담방 아이콘 추가 */}
+              <button
+                className="btn btn-outline btn-primary w-full mb-2"
+                onClick={() => {
+                  // ChatRoom 컴포넌트가 열리도록 하는 로직 (예: 상태 변경)
+                  // 현재 ChatRoom은 currentBooking이 있을 때만 렌더링되므로,
+                  // currentBooking이 없으면 생성하고, 있으면 그냥 열리도록 유도
+                  if (!currentBooking) {
+                    addOrUpdateBooking({
+                      serviceId: service.id, serviceName: service.name, type: 'service', status: '상담 중',
+                      bookingDate: new Date().toISOString().slice(0, 10), price: service.price, details: '서비스 상담 시작',
+                      messages: [{ sender: 'system', text: '안녕하세요! 무엇을 도와드릴까요?' }],
+                    });
+                  }
+                  setIsChatRoomOpen(true); // 이 줄 추가
+                }}
+              >
+                <ChatBubbleLeftRightIcon className="h-5 w-5 mr-2" />
+                상담방 열기
+              </button>
               {renderBookingActions()}
             </div>
           </div>
@@ -251,7 +272,14 @@ function ServiceDetailPage() {
           </div>
         </div>
 
-        {currentBooking && <ChatRoom serviceName={service.name} messages={currentBooking.messages || []} onSendMessage={handleSendMessage} />}
+        {currentBooking && isChatRoomOpen && ( // isChatRoomOpen 조건 추가
+          <ChatRoom
+            serviceName={service.name}
+            messages={currentBooking.messages || []}
+            onSendMessage={handleSendMessage}
+            onClose={() => setIsChatRoomOpen(false)} // onClose prop 추가
+          />
+        )}
         {isReservationModalOpen && <ReservationRequestModal service={service} onClose={() => setIsReservationModalOpen(false)} onConfirm={handleReservationRequest} />}
         {isPaymentModalOpen && <PaymentModal service={service} paymentInfo={paymentInfo} onClose={() => setIsPaymentModalOpen(false)} onConfirm={handlePaymentConfirm} />}
       </div>
