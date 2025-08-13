@@ -10,12 +10,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강북구 월계로 173',
     price: 0,
-    image: '북서울1.png',
+    image: '/북서울1.png',
     gallery: [
-      '북서울1.png',
-      '북서울2.png',
-      '북서울3.png',
-      '북서울4.png'
+      '/북서울1.png',
+      '/북서울2.jpg',
+      '/북서울3.jpg',
+      '/북서울4.jpg'
     ],
     isVerified: true,
     description: '아름다운 자연과 함께 특별한 결혼식을 올릴 수 있는 서울시의 공공 예식장입니다. 창녕위궁재사와 같은 전통 한옥을 배경으로 하거나 공원의 넓은 잔디밭을 활용하여 결혼식을 올릴 수 있습니다.',
@@ -33,12 +33,11 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 중구 세종대로 110',
     price: 66000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Simincheong+1',
+    image: '/시민청1.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Simincheong+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Simincheong+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Simincheong+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Simincheong+4'
+      '/시민청1.jpg',
+      '/시민청2.jpg',
+      '/시민청3.jpg',
     ],
     isVerified: true,
     description: '서울시청 지하에 위치한 시민청은 \'나만의 작은 결혼식\'을 올릴 수 있는 특별한 공간입니다. 정해진 틀에서 벗어나 부부가 원하는 콘셉트로 공간을 직접 꾸밀 수 있습니다.',
@@ -56,12 +55,10 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 서초구 매헌로 99',
     price: 0,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Yangjae+Citizen+Forest+1',
+    image: '/양재시민의숲1.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Yangjae+Citizen+Forest+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Yangjae+Citizen+Forest+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Yangjae+Citizen+Forest+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Yangjae+Citizen+Forest+4'
+      '/양재시민의숲1.jpg',
+      '/양재시민의숲2.jpg',
     ],
     isVerified: true,
     description: '푸르른 나무와 잔디밭이 어우러진 숲 속에서 올리는 특별한 야외 결혼식. 자연 친화적인 분위기에서 영화같은 결혼식을 꿈꾸는 분들께 추천합니다.',
@@ -79,12 +76,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 중구 퇴계로34길 28',
     price: 900000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Namsangol+Hanok+Village+1',
+    image: '/alvaro-cvg-mW8IZdX7n8E-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Namsangol+Hanok+Village+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Namsangol+Hanok+Village+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Namsangol+Hanok+Village+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Namsangol+Hanok+Village+4'
+      '/alvaro-cvg-mW8IZdX7n8E-unsplash.jpg',
+      '/bin-thieu-RjZQ3M3bGxQ-unsplash.jpg',
+      '/bruno-cervera-ZpNBwBR38fA-unsplash.jpg',
+      '/danielle-gehler-tBEr7mPJ_HM-unsplash.jpg'
     ],
     isVerified: true,
     description: '고즈넉한 한옥을 배경으로 한국의 전통미가 깃든 혼례를 올릴 수 있습니다. 특별하고 의미있는 전통혼례를 원하는 분들께 최고의 장소가 될 것입니다.',
@@ -102,12 +99,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 동작구 여의대방로54길 20',
     price: 150000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Women+Plaza+1',
+    image: '/evelina-friman-hw_sKmjb0ns-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Women+Plaza+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Seoul+Women+Plaza+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Seoul+Women+Plaza+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Seoul+Women+Plaza+4'
+      '/evelina-friman-hw_sKmjb0ns-unsplash.jpg',
+      '/jason-leung-fXAuCMEYGY4-unsplash.jpg',
+      '/jazmin-quaynor-8ioenvmof-I-unsplash.jpg',
+      '/jeremy-wong-weddings-464ps_nOflw-unsplash.jpg'
     ],
     isVerified: true,
     description: '모던하고 우아한 분위기의 실내 예식 공간입니다. 넉넉한 예식 시간과 높은 천고, 최신 시설을 갖추고 있어 품격있는 결혼식을 진행할 수 있습니다.',
@@ -125,12 +122,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 마포구 하늘공원로 84',
     price: 0,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=World+Cup+Park+1',
+    image: '/jeremy-wong-weddings-K41SGnGKxVk-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=World+Cup+Park+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=World+Cup+Park+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=World+Cup+Park+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=World+Cup+Park+4'
+      '/jeremy-wong-weddings-K41SGnGKxVk-unsplash.jpg',
+      '/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg',
+      '/junior-reis-zKaTW0Jv4jM-unsplash.jpg',
+      '/kerri-shaver-xepikEyPgmI-unsplash.jpg'
     ],
     isVerified: true,
     description: '넓게 펼쳐진 공원의 자연 속에서 자유로운 분위기의 야외 결혼식을 올릴 수 있습니다. 대규모 하객 초대가 가능하며, 주차 공간이 넉넉합니다.',
@@ -148,12 +145,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 동대문구 서울시립대로 163',
     price: 50000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=University+of+Seoul+1',
+    image: '/luigi-pozzoli-jZrfY30y6Kc-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=University+of+Seoul+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=University+of+Seoul+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=University+of+Seoul+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=University+of+Seoul+4'
+      '/luigi-pozzoli-jZrfY30y6Kc-unsplash.jpg',
+      '/marc-a-sporys-NO8Sj4dKE8k-unsplash.jpg',
+      '/matthew-essman-jTnipV64uLo-unsplash.jpg',
+      '/mel-BN0HcaBdPug-unsplash.jpg'
     ],
     isVerified: true,
     description: '서울시립대학교 캠퍼스 내에 위치한 예식 공간입니다. 저렴한 대관료로 실속있는 결혼식을 준비할 수 있습니다. (시간당 50,000원)',
@@ -171,12 +168,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 성북구 보문로 168',
     price: 0,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Seongbuk-gu+Office+1',
+    image: '/micheile-henderson-KWHoxdn1IUE-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Seongbuk-gu+Office+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Seongbuk-gu+Office+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Seongbuk-gu+Office+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Seongbuk-gu+Office+4'
+      '/micheile-henderson-KWHoxdn1IUE-unsplash.jpg',
+      '/nathan-dumlao-w5hhoYM_JsU-unsplash.jpg',
+      '/nick-karvounis-8WODX7nO2JE-unsplash.jpg',
+      '/nils-stahl-BCkLxilDvJU-unsplash.jpg'
     ],
     isVerified: true,
     description: '성북구청 내에 마련된 대강당을 예식 공간으로 활용할 수 있습니다. 무료로 대관이 가능하여 결혼 비용을 크게 절약할 수 있습니다.',
@@ -194,12 +191,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강북구 삼각산로 85',
     price: 110000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Gangbuk+Culture+and+Arts+Center+1',
+    image: '/photos-by-lanty-O38Id_cyV4M-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Gangbuk+Culture+and+Arts+Center+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Gangbuk+Culture+and+Arts+Center+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Gangbuk+Culture+and+Arts+Center+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Gangbuk+Culture+and+Arts+Center+4'
+      '/photos-by-lanty-O38Id_cyV4M-unsplash.jpg',
+      '/photos-by-lanty-PeEH0wnO0kM-unsplash.jpg',
+      '/samantha-gades-x40Q9jrEVT0-unsplash.jpg',
+      '/sandy-millar-8vaQKYnawHw-unsplash.jpg'
     ],
     isVerified: true,
     description: '전문 공연장으로 설계된 공간에서 특별한 결혼식을 올릴 수 있습니다. 뛰어난 음향과 조명 시설을 활용하여 한 편의 공연같은 예식을 연출할 수 있습니다.',
@@ -217,12 +214,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 관악구 남부순환로 1719-15',
     price: 900000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Gwanak+Culture+and+Etiquette+Center+1',
+    image: '/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Gwanak+Culture+and+Etiquette+Center+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Gwanak+Culture+and+Etiquette+Center+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Gwanak+Culture+and+Etiquette+Center+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Gwanak+Culture+and+Etiquette+Center+4'
+      '/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg',
+      '/thomas-william-OAVqa8hQvWI-unsplash.jpg',
+      '/vitor-monthay-JL2n-GWXCJo-unsplash.jpg',
+      '/yohann-libot-GFjNDSSYIA4-unsplash.jpg'
     ],
     isVerified: true,
     description: '아름다운 전통 한옥에서 격식있는 전통혼례를 진행할 수 있는 공간입니다. 남산골한옥마을과 유사한 콘셉트의 전통 예식을 올릴 수 있습니다.',
@@ -240,12 +237,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 영등포구 여의동로 330',
     price: 0,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Yeouido+Floating+Stage+1',
+    image: '/zane-persaud-r3XxZj-J4uQ-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Yeouido+Floating+Stage+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Yeouido+Floating+Stage+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Yeouido+Floating+Stage+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Yeouido+Floating+Stage+4'
+      '/zane-persaud-r3XxZj-J4uQ-unsplash.jpg',
+      '/alex-padurariu-Hoo9-pSSsKA-unsplash.jpg',
+      '/alexandra-gornago-o2zFDffQnDM-unsplash.jpg',
+      '/alvin-mahmudov-NSVJAAXOYHs-unsplash.jpg'
     ],
     isVerified: true,
     description: '한강의 아름다운 경치를 배경으로 낭만적인 결혼식을 올릴 수 있는 특별한 수상 무대입니다. 해질녘 노을과 함께하는 예식이 특히 아름답습니다.',
@@ -263,12 +260,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 서초구 남부순환로340길 58',
     price: 200000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Human+Resource+Development+Center+1',
+    image: '/anna-vi-QUi84upBhoc-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Human+Resource+Development+Center+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Seoul+Human+Resource+Development+Center+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Seoul+Human+Resource+Development+Center+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Seoul+Human+Resource+Development+Center+4'
+      '/anna-vi-QUi84upBhoc-unsplash.jpg',
+      '/annie-spratt-OWq8w3BYMFY-unsplash.jpg',
+      '/annie-spratt-TQSB-suJu1k-unsplash.jpg',
+      '/aranprime-XRzUf1SGWEI-unsplash.jpg'
     ],
     isVerified: true,
     description: '우면산의 수려한 자연경관을 배경으로 특별한 결혼식을 올릴 수 있는 공공 예식 공간입니다. 저렴한 비용으로 프라이빗한 예식을 원하는 예비부부들에게 인기가 높습니다.',
@@ -286,12 +283,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 서초구 남부순환로340길 57',
     price: 0,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=The+Seoul+Institute+1',
+    image: '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=The+Seoul+Institute+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=The+Seoul+Institute+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=The+Seoul+Institute+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=The+Seoul+Institute+4'
+      '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
+      '/bin-thieu-RjZQ3M3bGxQ-unsplash.jpg',
+      '/bruno-cervera-ZpNBwBR38fA-unsplash.jpg',
+      '/danielle-gehler-tBEr7mPJ_HM-unsplash.jpg'
     ],
     isVerified: true,
     description: '푸른 잔디가 깔린 뒤뜰을 야외 결혼식장으로 제공하여, 도심 속에서 특별하고 의미있는 작은 결혼식을 올릴 수 있습니다. 우천 시에는 1층 로비를 활용할 수 있습니다.',
@@ -309,12 +306,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 중구 덕수궁길 61',
     price: 189170,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Museum+of+Art+1',
+    image: '/eric-alves-divFrH3p6nc-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Seoul+Museum+of+Art+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Seoul+Museum+of+Art+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Seoul+Museum+of+Art+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Seoul+Museum+of+Art+4'
+      '/eric-alves-divFrH3p6nc-unsplash.jpg',
+      '/evelina-friman-hw_sKmjb0ns-unsplash.jpg',
+      '/jason-leung-fXAuCMEYGY4-unsplash.jpg',
+      '/jazmin-quaynor-8ioenvmof-I-unsplash.jpg'
     ],
     isVerified: true,
     description: '미술관의 현대적인 건축물과 야외 조각 공원이 어우러져 독특하고 세련된 분위기의 결혼식을 연출할 수 있습니다. 예술과 자연이 공존하는 특별한 공간입니다.',
@@ -332,12 +329,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 금천구 시흥대로73길 70',
     price: 334000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Geumcheon-gu+Office+1',
+    image: '/jeremy-wong-weddings-464ps_nOflw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Geumcheon-gu+Office+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Geumcheon-gu+Office+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Geumcheon-gu+Office+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Geumcheon-gu+Office+4'
+      '/jeremy-wong-weddings-464ps_nOflw-unsplash.jpg',
+      '/jeremy-wong-weddings-K41SGnGKxVk-unsplash.jpg',
+      '/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg',
+      '/junior-reis-zKaTW0Jv4jM-unsplash.jpg'
     ],
     isVerified: true,
     description: '금천구청 대강당을 예식장으로 이용할 수 있습니다. 2시간 기준 저렴한 비용으로 실속있는 예식을 준비할 수 있습니다.',
@@ -355,12 +352,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 서대문구 연희로 247',
     price: 40000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Seodaemun-gu+Office+1',
+    image: '/kerri-shaver-xepikEyPgmI-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Seodaemun-gu+Office+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Seodaemun-gu+Office+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Seodaemun-gu+Office+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Seodaemun-gu+Office+4'
+      '/kerri-shaver-xepikEyPgmI-unsplash.jpg',
+      '/luigi-pozzoli-jZrfY30y6Kc-unsplash.jpg',
+      '/marc-a-sporys-NO8Sj4dKE8k-unsplash.jpg',
+      '/matthew-essman-jTnipV64uLo-unsplash.jpg'
     ],
     isVerified: true,
     description: '서대문구청의 대강당을 예식 공간으로 제공합니다. 매우 저렴한 대관료로 400명의 하객을 수용할 수 있는 넓은 공간을 이용할 수 있습니다.',
@@ -378,12 +375,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 양천구 목동서로 367',
     price: 70000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Yangcheon+Culture+Center+1',
+    image: '/mel-BN0HcaBdPug-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Yangcheon+Culture+Center+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Yangcheon+Culture+Center+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Yangcheon+Culture+Center+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Yangcheon+Culture+Center+4'
+      '/mel-BN0HcaBdPug-unsplash.jpg',
+      '/micheile-henderson-KWHoxdn1IUE-unsplash.jpg',
+      '/nathan-dumlao-w5hhoYM_JsU-unsplash.jpg',
+      '/nick-karvounis-8WODX7nO2JE-unsplash.jpg'
     ],
     isVerified: true,
     description: '양천구의 대표적인 문화 공간인 문화회관에서 결혼식을 올릴 수 있습니다. 300명을 수용할 수 있는 넓은 공간을 저렴하게 대관할 수 있습니다.',
@@ -401,12 +398,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 마포구 토정로 118',
     price: 300000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Gwangheungdang+1',
+    image: '/nils-stahl-BCkLxilDvJU-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Gwangheungdang+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Gwangheungdang+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Gwangheungdang+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Gwangheungdang+4'
+      '/nils-stahl-BCkLxilDvJU-unsplash.jpg',
+      '/photos-by-lanty-O38Id_cyV4M-unsplash.jpg',
+      '/photos-by-lanty-PeEH0wnO0kM-unsplash.jpg',
+      '/samantha-gades-x40Q9jrEVT0-unsplash.jpg'
     ],
     isVerified: true,
     description: '조선시대의 역사를 간직한 광흥당에서 특별한 전통 혼례를 경험할 수 있습니다. 소규모 하객과 함께하는 의미있는 예식에 적합합니다.',
@@ -426,12 +423,11 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 논현로 645',
     price: 25000000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Eliena+Hotel+Wedding+1',
+    image: '/엘리에나1.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Eliena+Hotel+Wedding+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Eliena+Hotel+Wedding+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Eliena+Hotel+Wedding+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Eliena+Hotel+Wedding+4'
+      '/엘리에나1.jpg',
+      '/엘리에나2.jpg',
+      '/엘리에나3.jpg',
     ],
     isVerified: true,
     description: '엘리에나 호텔은 당신의 꿈을 현실로 만들어 드리는 최고의 웨딩 장소입니다.',
@@ -466,12 +462,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 테헤란로 521',
     price: 800000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Very+Good+Wedding+1',
+    image: '/sandy-millar-8vaQKYnawHw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Very+Good+Wedding+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Very+Good+Wedding+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Very+Good+Wedding+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Very+Good+Wedding+4'
+      '/sandy-millar-8vaQKYnawHw-unsplash.jpg',
+      '/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg',
+      '/thomas-william-OAVqa8hQvWI-unsplash.jpg',
+      '/vitor-monthay-JL2n-GWXCJo-unsplash.jpg'
     ],
     isVerified: true,
     description: '경험 많은 웨딩플래너가 예식 준비의 모든 과정을 함께하며 최고의 선택을 도와드립니다.',
@@ -489,12 +485,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 도산대로 123',
     price: 2500000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=W+Directing+1',
+    image: '/yohann-libot-GFjNDSSYIA4-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=W+Directing+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=W+Directing+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=W+Directing+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=W+Directing+4'
+      '/yohann-libot-GFjNDSSYIA4-unsplash.jpg',
+      '/zane-persaud-r3XxZj-J4uQ-unsplash.jpg',
+      '/alex-padurariu-Hoo9-pSSsKA-unsplash.jpg',
+      '/alexandra-gornago-o2zFDffQnDM-unsplash.jpg'
     ],
     isVerified: true,
     description: '결혼식의 시작부터 끝까지, 모든 것을 총괄하는 전문 웨딩 디렉팅 서비스입니다.',
@@ -512,12 +508,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 서초구 신반포로 321',
     price: 1000000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Patio+Catering+1',
+    image: '/alvin-mahmudov-NSVJAAXOYHs-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Patio+Catering+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Patio+Catering+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Patio+Catering+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Patio+Catering+4'
+      '/alvin-mahmudov-NSVJAAXOYHs-unsplash.jpg',
+      '/anna-vi-QUi84upBhoc-unsplash.jpg',
+      '/annie-spratt-OWq8w3BYMFY-unsplash.jpg',
+      '/aranprime-XRzUf1SGWEI-unsplash.jpg'
     ],
     isVerified: true,
     description: '야외 웨딩, 스몰 웨딩을 위한 고품격 맞춤 케이터링 서비스를 제공합니다.',
@@ -536,12 +532,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 선릉로152길 15',
     price: 1800000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Obra+Maestra+1',
+    image: '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Obra+Maestra+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Obra+Maestra+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Obra+Maestra+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Obra+Maestra+4'
+      '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
+      '/bin-thieu-RjZQ3M3bGxQ-unsplash.jpg',
+      '/bruno-cervera-ZpNBwBR38fA-unsplash.jpg',
+      '/danielle-gehler-tBEr7mPJ_HM-unsplash.jpg'
     ],
     isVerified: true,
     description: '인물 중심의 깔끔하고 세련된 웨딩 사진을 추구합니다.',
@@ -559,12 +555,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 선릉로145길 15',
     price: 3000000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Signature+Elizabeth+1',
+    image: '/eric-alves-divFrH3p6nc-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Signature+Elizabeth+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Signature+Elizabeth+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Signature+Elizabeth+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Signature+Elizabeth+4'
+      '/eric-alves-divFrH3p6nc-unsplash.jpg',
+      '/evelina-friman-hw_sKmjb0ns-unsplash.jpg',
+      '/jason-leung-fXAuCMEYGY4-unsplash.jpg',
+      '/jazmin-quaynor-8ioenvmof-I-unsplash.jpg'
     ],
     isVerified: true,
     description: '클래식하고 우아한 A라인 드레스가 시그니처인 엘리자베스 드레스샵입니다.',
@@ -582,12 +578,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 압구정로60길 22',
     price: 880000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Jungsaemmool+Inspiration+1',
+    image: '/jeremy-wong-weddings-464ps_nOflw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Jungsaemmool+Inspiration+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Jungsaemmool+Inspiration+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Jungsaemmool+Inspiration+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Jungsaemmool+Inspiration+4'
+      '/jeremy-wong-weddings-464ps_nOflw-unsplash.jpg',
+      '/jeremy-wong-weddings-K41SGnGKxVk-unsplash.jpg',
+      '/jeremy-wong-weddings-K8KiCHh4WU4-unsplash.jpg',
+      '/junior-reis-zKaTW0Jv4jM-unsplash.jpg'
     ],
     isVerified: true,
     description: '피부 본연의 아름다움을 살리는 투명하고 내추럴한 메이크업을 전문으로 합니다.',
@@ -606,12 +602,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 도산대로55길 47',
     price: 1500000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Another+Day+1',
+    image: '/kerri-shaver-xepikEyPgmI-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Another+Day+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Another+Day+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Another+Day+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Another+Day+4'
+      '/kerri-shaver-xepikEyPgmI-unsplash.jpg',
+      '/luigi-pozzoli-jZrfY30y6Kc-unsplash.jpg',
+      '/marc-a-sporys-NO8Sj4dKE8k-unsplash.jpg',
+      '/matthew-essman-jTnipV64uLo-unsplash.jpg'
     ],
     isVerified: false,
     description: '두 명의 작가가 다양한 각도에서 결혼식의 모든 순간을 놓치지 않고 담아드립니다.',
@@ -629,12 +625,12 @@ const initialWeddingHalls = [
     city: '온라인',
     address: '온라인 및 전국 출장',
     price: 300000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Kim+Chul-soo+Officiant+1',
+    image: '/mel-BN0HcaBdPug-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Kim+Chul-soo+Officiant+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Kim+Chul-soo+Officiant+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Kim+Chul-soo+Officiant+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Kim+Chul-soo+Officiant+4'
+      '/mel-BN0HcaBdPug-unsplash.jpg',
+      '/micheile-henderson-KWHoxdn1IUE-unsplash.jpg',
+      '/nathan-dumlao-w5hhoYM_JsU-unsplash.jpg',
+      '/nick-karvounis-8WODX7nO2JE-unsplash.jpg'
     ],
     isVerified: false,
     description: '따뜻하고 감동적인 메시지로 예식의 품격을 높여드리는 전문 주례 서비스입니다.',
@@ -652,12 +648,12 @@ const initialWeddingHalls = [
     city: '온라인',
     address: '온라인 및 전국 출장',
     price: 400000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=First+Music+1',
+    image: '/nils-stahl-BCkLxilDvJU-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=First+Music+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=First+Music+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=First+Music+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=First+Music+4'
+      '/nils-stahl-BCkLxilDvJU-unsplash.jpg',
+      '/photos-by-lanty-O38Id_cyV4M-unsplash.jpg',
+      '/photos-by-lanty-PeEH0wnO0kM-unsplash.jpg',
+      '/samantha-gades-x40Q9jrEVT0-unsplash.jpg'
     ],
     isVerified: true,
     description: '감미로운 목소리의 실력파 보컬이 두 분의 결혼을 축하하는 노래를 선물합니다.',
@@ -675,12 +671,12 @@ const initialWeddingHalls = [
     city: '온라인',
     address: '온라인 주문',
     price: 150000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Barunson+Card+1',
+    image: '/sandy-millar-8vaQKYnawHw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Barunson+Card+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Barunson+Card+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Barunson+Card+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Barunson+Card+4'
+      '/sandy-millar-8vaQKYnawHw-unsplash.jpg',
+      '/shardayyy-photography-fJzmPe-a0eU-unsplash.jpg',
+      '/thomas-william-OAVqa8hQvWI-unsplash.jpg',
+      '/vitor-monthay-JL2n-GWXCJo-unsplash.jpg'
     ],
     isVerified: true,
     description: '다양한 디자인과 합리적인 가격의 청첩장으로 소중한 분들께 기쁜 소식을 전하세요.',
@@ -699,12 +695,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 종로구 종로 235-1',
     price: 450000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Bidanbim+1',
+    image: '/yohann-libot-GFjNDSSYIA4-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Bidanbim+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Bidanbim+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Bidanbim+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Bidanbim+4'
+      '/yohann-libot-GFjNDSSYIA4-unsplash.jpg',
+      '/zane-persaud-r3XxZj-J4uQ-unsplash.jpg',
+      '/alex-padurariu-Hoo9-pSSsKA-unsplash.jpg',
+      '/alexandra-gornago-o2zFDffQnDM-unsplash.jpg'
     ],
     isVerified: true,
     description: '전통의 미와 현대적 감각이 어우러진 고운 빛깔의 한복을 만나보세요.',
@@ -722,12 +718,12 @@ const initialWeddingHalls = [
     city: '서울시',
     address: '서울시 강남구 선릉로146길 27-8',
     price: 1200000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Harrison+Taylor+1',
+    image: '/alvin-mahmudov-NSVJAAXOYHs-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Harrison+Taylor+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Harrison+Taylor+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Harrison+Taylor+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Harrison+Taylor+4'
+      '/alvin-mahmudov-NSVJAAXOYHs-unsplash.jpg',
+      '/anna-vi-QUi84upBhoc-unsplash.jpg',
+      '/annie-spratt-OWq8w3BYMFY-unsplash.jpg',
+      '/aranprime-XRzUf1SGWEI-unsplash.jpg'
     ],
     isVerified: false,
     description: '최고급 원단과 장인의 기술로 당신만을 위한 완벽한 핏의 맞춤 예복을 제작합니다.',
@@ -745,12 +741,12 @@ const initialWeddingHalls = [
     city: '전국',
     address: '전국 백화점 매장',
     price: 1500000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Golden+Dew+1',
+    image: '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Golden+Dew+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Golden+Dew+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Golden+Dew+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Golden+Dew+4'
+      '/arshad-pooloo-GdwWrLHdwpw-unsplash.jpg',
+      '/bin-thieu-RjZQ3M3bGxQ-unsplash.jpg',
+      '/bruno-cervera-ZpNBwBR38fA-unsplash.jpg',
+      '/danielle-gehler-tBEr7mPJ_HM-unsplash.jpg'
     ],
     isVerified: true,
     description: '두 사람의 사랑을 약속하는 영원한 빛, 골든듀의 아름다운 커플링 컬렉션.',
@@ -769,12 +765,12 @@ const initialWeddingHalls = [
     city: '온라인',
     address: '온라인 상담',
     price: 4500000,
-    image: 'https://placehold.co/800x600/A7F3D0/000000?text=Honeymoon+Resort+1',
+    image: '/eric-alves-divFrH3p6nc-unsplash.jpg',
     gallery: [
-      'https://placehold.co/800x600/A7F3D0/000000?text=Honeymoon+Resort+1',
-      'https://placehold.co/800x600/B3E5FC/000000?text=Honeymoon+Resort+2',
-      'https://placehold.co/800x600/FBCFE8/000000?text=Honeymoon+Resort+3',
-      'https://placehold.co/800x600/FED7AA/000000?text=Honeymoon+Resort+4'
+      '/eric-alves-divFrH3p6nc-unsplash.jpg',
+      '/evelina-friman-hw_sKmjb0ns-unsplash.jpg',
+      '/jason-leung-fXAuCMEYGY4-unsplash.jpg',
+      '/jazmin-quaynor-8ioenvmof-I-unsplash.jpg'
     ],
     isVerified: true,
     description: '몰디브, 하와이, 발리 등 전 세계 최고의 휴양지로 떠나는 꿈의 허니문을 디자인해드립니다.',
@@ -986,9 +982,10 @@ export const mockCommunityPosts = [
 
 ---
 
+
 ### **PART 2. 웨딩홀 선택, 이것만은 알고 가자!**
 
-웨딩홀은 결혼 준비의 '꽃'이자 가장 큰 비용이 드는 항목이에요. 그만큼 신중하게 선택해야겠죠?
+웨딩홀은 결혼 준비의 \'꽃\'이자 가장 큰 비용이 드는 항목이에요. 그만큼 신중하게 선택해야겠죠?
 
 **STEP 1. 기본 정보 정하기**
 - **예상 하객 수:** 보증 인원을 정해야 웨딩홀 타입을 정할 수 있어요.

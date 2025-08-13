@@ -129,7 +129,7 @@ function ServiceDetailPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
           <div className="lg:col-span-3">
-            <img src={mainImage} alt={service.name} className="w-full h-96 object-cover rounded-lg shadow-lg"/>
+            <img src={mainImage} alt={service.name} className="w-full h-96 object-contain rounded-lg shadow-lg"/>
             <div className="grid grid-cols-4 gap-2 mt-2">
               {service.gallery?.map((img, index) => <img key={index} src={img} alt={`${service.name} gallery ${index + 1}`} className={`w-full h-24 object-cover rounded-md cursor-pointer ${mainImage === img ? 'ring-2 ring-primary' : ''}`} onClick={() => setMainImage(img)} />)}
             </div>
