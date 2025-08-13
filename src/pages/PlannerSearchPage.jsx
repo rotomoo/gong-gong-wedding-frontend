@@ -203,7 +203,7 @@ function PlannerSearchPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-8">
           {filteredAndSortedHalls.map(hall => (
-            <Link to={`/service/${hall.id}`} key={hall.id} className="card bg-white group border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Link to={`/service/${hall.id}`} key={hall.id} style={{ willChange: 'transform' }} className="card bg-white group border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
               <figure className="relative h-40 w-full">
                 <img 
                   src={hall.image} 

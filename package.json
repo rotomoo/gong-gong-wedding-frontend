@@ -7,17 +7,23 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "optimize-images": "imagemin public/* --out-dir=public/optimized --plugin=mozjpeg --plugin=pngquant"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@types/react-virtualized": "^9.22.2",
+    "@types/react-window": "^1.8.8",
+    "browser-image-compression": "^2.0.2",
     "daisyui": "^5.0.50",
     "imagemin-cli": "^8.0.0",
     "imagemin-mozjpeg": "^10.0.0",
     "imagemin-pngquant": "^10.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.7.1"
+    "react-router-dom": "^7.7.1",
+    "react-virtualized": "^9.22.6",
+    "react-window": "^1.8.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
