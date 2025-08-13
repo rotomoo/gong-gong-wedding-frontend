@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import { mockCommunityPosts } from '../data/mockData';
 import { ArrowLeftIcon, EyeIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/react/24/solid';
 
@@ -49,9 +50,11 @@ function CommunityDetailPage() {
           </div>
 
           <h1 className="text-3xl font-extrabold text-gray-900 mb-4">{post.title}</h1>
-          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap mb-6">{post.content}</p>
+          <div className="prose max-w-none">
+            <ReactMarkdown>{post.content}</ReactMarkdown>
+          </div>
 
-          <div className="flex items-center gap-4 text-gray-600 text-sm">
+          <div className="flex items-center gap-4 text-gray-600 text-sm mt-6">
             <div className="flex items-center gap-1">
               <EyeIcon className="h-5 w-5" /> {post.views}
             </div>
